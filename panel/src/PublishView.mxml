@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:controls="it.sephiroth.controls.*" 
+	xmlns:gaia="*"
+	width="100%" height="100%" creationComplete="init()"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off" verticalPageScrollSize="200" verticalLineScrollSize="35">
+	<mx:Script>
+		<![CDATA[
+			import mx.binding.utils.BindingUtils;
+			import com.gaiaframework.panel.services.Panel;
+			import com.gaiaframework.panel.skin.StageManager;
+			import com.gaiaframework.panel.utils.PublishDataUtils;
+			import com.gaiaframework.panel.data.PublishData;
+			import it.sephiroth.renderers.TreecheckboxItemRenderer;
+			import it.sephiroth.controls.TreeCheckBox;
+			
+			import com.gaiaframework.panel.data.Project;
+			
+			import mx.controls.treeClasses.TreeListData;
+			import mx.managers.PopUpManager;
+			import mx.events.*;
+			
+			[Bindable]
+			public var project:Project = new Project();
+		
+			[Bindable]
+	        public var selectedNode:XML;
+	        
+	        [Bindable]
+			private var panelWidth:int = 278;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/flash_file_cs3.png")]
+	        public var flashFileIconCS3:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/flash_file_cs4.png")]
+	        public var flashFileIconCS4:Class;
+	        
+	        [Bindable]
+	        public var flashFileIcon:Class;
+			
+			[Bindable]
+			[Embed("/assets/flash/main_fla_icon.png")]
+	        public var mainFileIcon:Class;
+	        
+	        private var doubleClickSrc:String;
+	        
+	        private var checkClick:Boolean = false;
+	        
+	        public function init():void
+	        {
+	        	if (Panel.api.getFlashVersion() == "9") flashFileIcon = flashFileIconCS3;
+	        	else flashFileIcon = flashFileIconCS4;
+	        	verticalScrollPosition = 0;	   	
+	        }
+			private function onTreeChanged(event:ListEvent):void 
+	        {
+	            selectedNode = TreeCheckBox(event.target).selectedItem as XML;
+	        }
+	        private function onItemClick(event:ListEvent):void
+	        {
+	        	if (!checkClick && TreeListData(TreecheckboxItemRenderer(event.itemRenderer).listData).hasChildren)
+	        	{
+	        		doubleClickSrc = null;
+	        		publishTree.expandItem(TreecheckboxItemRenderer(event.itemRenderer).data, !TreeListData(TreecheckboxItemRenderer(event.itemRenderer).listData).open, true);
+	        	}
+	        	else if (!checkClick && !TreeListData(TreecheckboxItemRenderer(event.itemRenderer).listData).hasChildren)
+	        	{
+	        		doubleClickSrc = TreecheckboxItemRenderer(event.itemRenderer).data.@src;
+	        	}
+	        	checkClick = false;
+	        }
+	        private function onItemCheck(event:TreeEvent):void
+			{
+				updateParents(event.item as XML, (event.itemRenderer as TreecheckboxItemRenderer).checkBox.checkState);
+				updateChildren(event.item as XML, (event.itemRenderer as TreecheckboxItemRenderer).checkBox.checkState);
+				checkClick = true;
+			}
+	        private function onDoubleClick(event:MouseEvent):void
+	        {
+	        	if (doubleClickSrc) Panel.api.openFile(doubleClickSrc);
+	        }
+	        private function updateChildren(item:XML, value:uint):void
+	        {
+		        var middle: Boolean = (value & 2 << 1) == (2 << 1);
+		        var selected: Boolean = (value & 1 << 1) == (1 << 1);
+	        
+	            if(item.children().length() > 0 && !middle)
+	            {
+	                for each(var x:XML in item.node)
+	                {
+	                    x.@checked = value == (1 << 1 | 2 << 1) ? "2" : value == (1 << 1) ? "1" : "0";
+	                    updateChildren(x, value);
+	                }
+	            }
+	        }
+	        private function updateParents(item:XML, value:uint):void
+	        {
+	        	var checkValue:String = (value == (1 << 1 | 2 << 1 ) ? "2" : value == (1 << 1) ? "1" : "0");
+	            var parentNode:XML = item.parent();
+	            if(parentNode)
+	            {
+	                for each(var x:XML in parentNode.node)
+	                {
+	                    if (x.@checked != checkValue) checkValue = "2";
+	                }
+	                parentNode.@checked = checkValue;
+	                updateParents(parentNode, value);
+	            }
+	        }     
+	        private function onClickTest(event:MouseEvent):void
+	        {
+				Panel.api.publish();
+	        }
+	        private function onClickOpenProjectFolder(event:MouseEvent):void
+	        {
+	        	Panel.api.openProjectFolder();
+	        }
+	        private function onClickSync(event:MouseEvent):void
+	        {
+	        	Panel.api.syncProjectPublish();
+	        }
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				panelWidth = StageManager.panelWidth;
+			}
+		]]>
+	</mx:Script>
+
+	<mx:Button id="BTN_Test" click="onClickTest(event)" enabled="{project.publishData.length > 0}"
+		x="10" y="13" label="Test Project" width="{panelWidth - BTN_Test.x - 10}" height="36"/>
+	<mx:HRule y="60" width="100%"/>
+	<mx:Button id="BTN_OpenProjectFolder" click="onClickOpenProjectFolder(event)" label="Open Project Folder"
+		x="10" y="71" height="18" width="{panelWidth - BTN_OpenProjectFolder.x - 10}"/>
+	<mx:HRule y="99" width="100%"/>
+	<mx:VBox id="VBox_Tree" x="10" y="107" paddingBottom="10" width="{panelWidth - VBox_Tree.x - 5}" height="100%"
+		verticalScrollPolicy="off" horizontalScrollPolicy="off">
+		
+		<controls:TreeCheckBox id="publishTree"
+	    	width="100%"
+	    	height="100%"
+	    	labelField="@label"
+	    	iconField="@icon"
+	    	checkField="@checked"
+	        showRoot="true"
+	        dataProvider="{project.publishData}"
+	        change="onTreeChanged(event)"
+	        itemClick="onItemClick(event)"
+	        itemCheck="onItemCheck(event)"
+	        doubleClick="onDoubleClick(event)" doubleClickEnabled="true"
+	        openDuration="50"
+	    />
+		
+		<mx:Canvas verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:Button id="BTN_Sync" click="onClickSync(event)"
+				label="Sync with site.xml" width="{panelWidth - VBox_Tree.x - HELP_Sync.width - 10}" height="18"/>
+			<gaia:HelpButton id="HELP_Sync" 
+				x="{panelWidth - HELP_Sync.width - 15}"
+				y="1.5"
+				toolTip="Use this to resync the tree with your site.xml. Note: This will check all the files in the tree."
+				url="http://www.gaiaflashframework.com/wiki/index.php?title=The_Gaia_Panel#Sync_With_Site_XML"/>
+		</mx:Canvas>
+	</mx:VBox>
+</mx:Canvas>

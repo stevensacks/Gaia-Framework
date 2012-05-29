@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:gaia="*" creationComplete="firstTime()"
+	 horizontalScrollPolicy="off" verticalScrollPolicy="off">
+	<mx:Metadata>
+		[Event(name="close", type="mx.events.CloseEvent")]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import com.gaiaframework.panel.skin.StageManager;
+			import com.gaiaframework.panel.events.PanelErrorEvent;
+			import com.gaiaframework.panel.events.GaiaPanelEvent;
+			import com.gaiaframework.panel.services.Panel;
+			
+			import mx.events.CloseEvent;
+			
+			[Bindable]
+	        [Embed("/assets/flash/AS3Project.png")]
+	        private var as3Project:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/AS2Project.png")]
+	        private var as2Project:Class;
+			
+			[Bindable]
+			private var panelWidth:int = 278;
+			
+			public function openProject():void
+			{
+				projectView.init();
+			}
+			private function firstTime():void
+			{
+				projectView.addEventListener(GaiaPanelEvent.CREATE_PROJECT, onCreateProject);
+				projectView.addEventListener(PanelErrorEvent.INVALID_FIELDS, onInvalidFields);
+				projectView.addEventListener(PanelErrorEvent.ALL_FIELDS_VALID, onAllFieldsValid);
+				scaffoldView.addEventListener(PanelErrorEvent.INVALID_FIELDS, onInvalidFields);
+				scaffoldView.addEventListener(PanelErrorEvent.ALL_FIELDS_VALID, onAllFieldsValid);
+				Panel.api.addEventListener(GaiaPanelEvent.SCAFFOLD_PROJECT, onScaffoldProject);
+				Panel.api.addEventListener(GaiaPanelEvent.CLOSE_PROJECT, onCloseProject);
+				init();
+			}
+			private function init():void
+			{
+				projectRule.visible = false;
+			}
+			private function onCreateProject(event:GaiaPanelEvent):void
+			{
+				tabs.selectedIndex = 1;
+			}
+			private function onScaffoldProject(event:GaiaPanelEvent):void
+			{
+				tabs.selectedIndex = 2;
+			}
+			private function onCloseProject(event:GaiaPanelEvent):void
+			{
+				tabs.selectedIndex = 0;
+				projectRule.visible = false;
+				dispatchEvent(new CloseEvent(CloseEvent.CLOSE));
+			}
+			private function onClickClose(event:MouseEvent):void
+			{
+				Panel.api.closeProject();
+			}			
+			private function onTabChange(event:Event):void
+			{
+				tabs.selectedChild["init"]();
+				projectRule.visible = (tabs.selectedChild != projectView);
+				scaffoldRule.visible = (tabs.selectedChild != scaffoldView);
+				publishRule.visible = (tabs.selectedChild != publishView);
+			}
+			private function onInvalidFields(event:PanelErrorEvent):void
+			{
+				if (tabs.selectedIndex != 0) projectView.enabled = false;
+				if (tabs.selectedIndex != 1) scaffoldView.enabled = false;
+				publishView.enabled = false;
+			}
+			private function onAllFieldsValid(event:PanelErrorEvent):void
+			{
+				if (tabs.selectedIndex == 1) projectView.enabled = true;
+				if (Panel.api.model.project.isCreated) scaffoldView.enabled = true;
+				if (Panel.api.model.project.isScaffolded) publishView.enabled = true;
+			}
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				panelWidth = StageManager.scrollWidth;
+			}
+		]]>
+	</mx:Script>
+	<mx:Image source="{Panel.api.model.project.language == 'AS3' ? as3Project : as2Project}"
+		x="10" y="1"/>
+	<mx:Button id="BTN_Close" x="{panelWidth - BTN_Close.width}" label="{Panel.api.model.project.isCreated ? 'Close' : 'Cancel'}" click="onClickClose(event)" height="15"/>
+	<mx:TabNavigator id="tabs" x="0" y="21" width="100%" height="100%" change="onTabChange(event)" tabHeight="18">
+		<gaia:ProjectView id="projectView" label="Project" project="{Panel.api.model.project}" width="100%" height="100%"/>
+		<gaia:ScaffoldView id="scaffoldView" label="Scaffold" enabled="{Panel.api.model.project.isCreated}" project="{Panel.api.model.project}" width="100%" height="100%"/>
+		<gaia:PublishView id="publishView" label="Publish" enabled="{Panel.api.model.project.isScaffolded}" project="{Panel.api.model.project}" width="100%" height="100%"/>
+	</mx:TabNavigator>
+	<mx:HRule id="projectRule" x="0" y="38" width="49" height="1" strokeColor="#A7A6AA"/>
+	<mx:HRule id="scaffoldRule" x="48" y="38" width="55" height="1" strokeColor="#A7A6AA"/>
+	<mx:HRule id="publishRule" x="102" y="38" width="50" height="1" strokeColor="#A7A6AA"/>
+	<mx:HRule id="rightRule" x="151" y="38" width="100%" height="1" strokeColor="#A7A6AA"/>
+</mx:Canvas>

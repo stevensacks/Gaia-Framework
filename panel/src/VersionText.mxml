@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off" 
+	width="100%" height="25" creationComplete="init()" backgroundAlpha="0">
+	<mx:Script>
+		<![CDATA[
+			import com.gaiaframework.panel.skin.StageManager;
+			import mx.controls.Image;
+			
+			private var _version:String;
+			
+			private var initialResizeTimer:Timer = new Timer(1, 1);
+			
+			private function init():void
+			{
+				initialResizeTimer.addEventListener(TimerEvent.TIMER, onResizeTimer);
+				initialResizeTimer.start();
+			}
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				container.x = StageManager.scrollWidth - container.width;
+			}
+			private function onResizeTimer(event:TimerEvent):void
+			{
+				initialResizeTimer.reset();
+				container.x = StageManager.scrollWidth - container.width; 
+			}			
+			
+			[Bindable]
+	        [Embed("/assets/flash/num/dot.png")]
+	        private var charDot:Class;
+			
+			[Bindable]
+	        [Embed("/assets/flash/num/v.png")]
+	        private var charV:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/0.png")]
+	        private var char0:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/1.png")]
+	        private var char1:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/2.png")]
+	        private var char2:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/3.png")]
+	        private var char3:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/4.png")]
+	        private var char4:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/5.png")]
+	        private var char5:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/6.png")]
+	        private var char6:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/7.png")]
+	        private var char7:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/8.png")]
+	        private var char8:Class;
+	        
+	        [Bindable]
+	        [Embed("/assets/flash/num/9.png")]
+	        private var char9:Class;
+			
+			[Bindable]
+			public function set version(value:String):void
+			{
+				if (value.indexOf("Beta") > -1) value = value.substr(0, value.indexOf("Beta") - 2);
+				_version = value;
+				container.removeAllChildren();
+				var image:Image = new Image();
+				image.source = charV;
+				container.addChild(image);
+				var len:int = _version.length;
+				for (var i:int = 0; i < len; i++)
+				{
+					image = new Image();
+					var c:String = _version.charAt(i);
+					if (c == ".") image.source = charDot;
+					else image.source = this["char" + c];
+					container.addChild(image);
+				}
+			}
+			public function get version():String
+			{
+				return _version;
+			}
+		]]>
+	</mx:Script>
+	<mx:HBox id="container" horizontalGap="0" verticalAlign="bottom"/>
+</mx:Canvas>

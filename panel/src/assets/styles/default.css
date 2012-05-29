@@ -1,0 +1,217 @@
+/* CSS file */
+@font-face
+{
+	src: local("Verdana");
+	fontFamily: "VerdanaEmbed";
+	fontWeight: normal;
+	advancedAntiAliasing: true;
+	unicodeRange:
+		U+0041-U+005A, /* Upper-Case [A..Z] */
+		U+0061-U+007A, /* Lower-Case a-z */
+		U+0030-U+0039, /* Numbers [0..9] */
+		U+0020-U+002F, /* Punctuation */
+		U+003A-U+0040, /* Punctuation */
+		U+005B-U+0060, /* Punctuation */
+		U+007B-U+007E; /* Punctuation */
+}
+@font-face
+{
+	src: local("Verdana");
+	fontFamily: "VerdanaEmbed";
+	fontWeight: bold;
+	advancedAntiAliasing: true;
+	unicodeRange:
+		U+0041-U+005A, /* Upper-Case [A..Z] */
+		U+0061-U+007A, /* Lower-Case a-z */
+		U+0030-U+0039, /* Numbers [0..9] */
+		U+0020-U+002F, /* Punctuation */
+		U+003A-U+0040, /* Punctuation */
+		U+005B-U+0060, /* Punctuation */
+		U+007B-U+007E; /* Punctuation */
+}
+Application
+{
+	backgroundColor: #d6d6d6;
+	font-family: VerdanaEmbed;
+	fontSize: 10;
+}
+Button
+{
+   paddingLeft: 3;
+   paddingRight: 3;
+   fillAlphas: 1, 1, 1, 1;
+   fillColors: #e7e7e7, #c6c6c6, #dddddd, #bfbfbf;
+   color: #4d4d4d;
+   textRollOverColor: #404040;
+   textSelectedColor: #404040;
+   borderColor: #737373;
+   themeColor: #53b6f9;
+   fontWeight: normal;
+   leading: -1;
+}
+Canvas
+{
+	backgroundColor: #d6d6d6;
+}
+CheckBox
+{
+	color: #262626;
+	textRollOverColor: #474747;
+	textSelectedColor: #262626;
+	borderColor: #737373;
+	fillColors: #e7e7e7, #c6c6c6, #dddddd, #bfbfbf;
+	leading: -2;
+	horizontalGap: 3;
+}
+GaiaColorPicker
+{
+	open-duration: 0;
+}
+.narrowColorPickerStyle
+{
+	swatchWidth: 10;
+	swatchHeight: 10;
+}
+.mediumColorPickerStyle
+{
+	swatchWidth: 11;
+	swatchHeight: 11;
+}
+.wideColorPickerStyle
+{
+	swatchWidth: 12;
+	swatchHeight: 12;
+}
+ComboBox 
+{
+   color: #4d4d4d;
+   borderColor: #737373;
+   fillColors: #e7e7e7, #c6c6c6, #dddddd, #bfbfbf;
+   selectionColor: #CCCCCC;
+   textSelectedColor: #4d4d4d;
+   useRollOver: true;
+   rollOverColor: #2f54f4;
+   textRollOverColor: #ffffff;
+   themeColor: #53b6f9;
+   openDuration: 10;
+   closeDuration: 10;
+   fontWeight: normal;
+   dropdownStyleName: "comboBoxDropDownStyle";
+}
+.comboBoxDropDownStyle 
+{
+   dropShadowEnabled: true;
+   shadowDirection: right;
+   shadowDistance: 1;
+   dropShadowColor: #b2b2b2;
+}
+HRule 
+{
+   strokeColor: #ababab;
+   shadowColor: #dedede;
+}
+Label
+{
+	color: #262626;
+	disabledColor: #808080; 
+}
+.errorLabel
+{
+	color: #CC0000;
+}
+TabNavigator
+{
+	/*backgroundColor: #d6d6d6;*/
+	backgroundColor: #d6d6d6;
+	borderStyle: none;
+	borderColor: #737373;
+	disabledColor: #808080;
+	cornerRadius: 0;
+	tabStyleName: "tabStyle";
+	paddingTop: -1;
+	selectedTabTextStyleName: "selectedTabStyle";
+}
+.tabStyle
+{
+	cornerRadius: 0;
+}
+.selectedTabStyle
+{
+   fontWeight: normal;
+}
+TextInput
+{
+	borderStyle: solid;
+	borderColor: #737373;
+	backgroundDisabledColor: #CCCCCC;
+	disabledColor: #707070;
+}
+VScrollBar 
+{
+	
+    downArrowUpSkin: Embed(source="../sb/SB_DownArrowUp.png");
+    downArrowOverSkin: Embed(source="../sb/SB_DownArrowOver.png");
+    downArrowDownSkin: Embed(source="../sb/SB_DownArrowDown.png");
+    upArrowUpSkin: Embed(source="../sb/SB_UpArrowUp.png");
+    upArrowOverSkin: Embed(source="../sb/SB_UpArrowOver.png");
+    upArrowDownSkin: Embed(source="../sb/SB_UpArrowDown.png");
+    thumbDownSkin: 
+        Embed(source="../sb/SB_ThumbDown.png",
+        scaleGridLeft="3", scaleGridTop="5", 
+        scaleGridRight="8", scaleGridBottom="14");
+        
+    thumbUpSkin: 
+        Embed(source="../sb/SB_ThumbUp.png",
+        scaleGridLeft="3", scaleGridTop="5", 
+        scaleGridRight="8", scaleGridBottom="14");
+        
+    thumbOverSkin: 
+        Embed(source="../sb/SB_ThumbUp.png",
+        scaleGridLeft="3", scaleGridTop="5", 
+        scaleGridRight="8", scaleGridBottom="14");
+        
+    trackSkin: 
+        Embed(source="../sb/SB_Track.png",
+        scaleGridLeft="3", scaleGridTop="3", 
+        scaleGridRight="8", scaleGridBottom="11" );
+	downArrowDisabledSkin: Embed(source="../sb/SB_DownArrowUp.png");
+	upArrowDisabledSkin: Embed(source="../sb/SB_UpArrowUp.png");       
+}
+.folderButton
+{
+	upSkin: Embed(source="../flash/flash_folder.png");
+	overSkin: Embed(source="../flash/flash_folder.png");
+	downSkin: Embed(source="../flash/flash_folder.png");
+	disabledSkin: Embed(source="../flash/flash_folder.png");
+	selectedUpSkin: Embed(source="../flash/flash_folder.png");
+	selectedOverSkin: Embed(source="../flash/flash_folder.png");
+	selectedDownSkin: Embed(source="../flash/flash_folder.png");
+	selectedDisabledSkin: Embed(source="../flash/flash_folder.png");
+}
+.uneditableInput
+{
+	backgroundAlpha: 0;
+	color: #262626;
+	borderStyle: none;
+}
+.invalidInput
+{
+	borderColor: #CC0000;
+	color: #CC0000;
+}
+.sectionTitle
+{
+	fontWeight: bold;
+	fontSize: 9;
+}
+/*
+TreeCheckBox
+{
+	background-color:#FFFFFF;
+	color:#000000;
+	roll-over-color:#FFFFFF;
+	selection-color:#FFFFFF;
+	text-roll-over-color:#000000;
+	text-selected-color:#000000;
+}
+*/

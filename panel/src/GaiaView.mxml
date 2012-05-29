@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" xmlns:gaia="*" creationComplete="init()"
+	horizontalScrollPolicy="off" verticalScrollPolicy="off" verticalPageScrollSize="200" verticalLineScrollSize="35">
+	<mx:Script>
+		<![CDATA[
+			import com.gaiaframework.panel.skin.StageManager;
+			import com.gaiaframework.panel.events.PanelConfirmEvent;
+			import com.gaiaframework.panel.data.Project;
+			import com.gaiaframework.panel.services.Panel;
+			
+			private var doubleClickURI:String;
+			
+			private var initialResizeTimer:Timer = new Timer(1, 1);
+			
+			[Bindable]
+			private var panelWidth:int = 258;
+			
+			private function init():void
+			{
+				initialResizeTimer.addEventListener(TimerEvent.TIMER, onResizeTimer);
+				initialResizeTimer.start();
+			}
+			private function onResizeTimer(event:TimerEvent):void
+			{
+				initialResizeTimer.reset();
+				panelWidth = StageManager.scrollWidth;
+			}
+			private function onListSelect(event:Event):void
+			{
+				doubleClickURI = event.target.selectedItem.@uri;
+			}
+			private function onListDoubleClick(event:Event):void
+			{
+				if (doubleClickURI) Panel.api.load(doubleClickURI);
+			}
+			private function onListKeyHandler(event:KeyboardEvent):void
+			{
+				if (event.keyCode == Keyboard.DELETE || event.keyCode == Keyboard.BACKSPACE)
+				{
+					var message:String = "Are you sure you want to remove " + LIST_Projects.selectedItem.@name + "?";
+					Panel.api.confirm(message, onConfirmRemove);
+				}
+			}
+			private function onClickDonate(event:MouseEvent):void
+			{
+				navigateToURL(new URLRequest("https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3858441"), "_blank");
+			}
+			private function onConfirmRemove(event:PanelConfirmEvent):void
+			{
+				event.target.removeEventListener(PanelConfirmEvent.CONFIRM, onConfirmRemove);
+				if (event.result) Panel.api.panelModel.removeProject(LIST_Projects.selectedItem.@uri);
+			}
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				panelWidth = StageManager.scrollWidth;
+			}
+		]]>
+	</mx:Script>
+	<mx:Button id="BTN_CreateAS3" click="Panel.api.model.createNewProject(Project.AS3)"
+		x="10" height="18" y="0" width="{(panelWidth - 30) / 2}" label="Create AS3"  />
+	<mx:Button id="BTN_CreateAS2" click="Panel.api.model.createNewProject(Project.AS2)"
+		x="{BTN_CreateAS3.x + BTN_CreateAS3.width + 20}" y="0"
+		height="18" width="{(panelWidth - 30) / 2}" label="Create AS2" />
+	<mx:Button id="BTN_Import" click="Panel.api.openProject()"
+		x="10" y="28" height="18" width="{panelWidth - BTN_Import.x}" label="Import Existing Gaia Project" />
+	<mx:Button id="BTN_Donate" click="onClickDonate(event)" x="10" y="56" height="18" width="{panelWidth - 10}" label="Please Make A Donation"/>
+	<mx:HRule y="7813" width="100%"/>
+	<mx:Canvas x="10" y="89" width="100%" height="100%" horizontalScrollPolicy="off">
+		<mx:VBox height="100%" paddingBottom="10" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:List id="LIST_Projects"
+				dataProvider="{Panel.api.panelModel.projects}" change="onListSelect(event)" doubleClick="onListDoubleClick(event)" doubleClickEnabled="true"
+				labelField="@name" enabled="{Panel.api.panelModel.projects.length > 0}" showDataTips="true" dataTipField="@uri" keyUp="onListKeyHandler(event)"
+				width="{panelWidth - LIST_Projects.x - 10}" height="100%" minHeight="175"/>
+		</mx:VBox>
+	</mx:Canvas>
+</mx:Canvas>

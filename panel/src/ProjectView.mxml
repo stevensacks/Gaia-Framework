@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:gaia="*" xmlns:gc="com.gaiaframework.panel.controls.*" verticalPageScrollSize="200" verticalLineScrollSize="35"
+	width="100%" height="100%" creationComplete="init()" horizontalScrollPolicy="off">
+	<mx:Metadata>
+		[Event(name="createProject", type="com.gaiaframework.panel.events.GaiaPanelEvent")]
+		[Event(name="invalidFields", type="com.gaiaframework.panel.events.PanelErrorEvent")]
+		[Event(name="allFieldsValid", type="com.gaiaframework.panel.events.PanelErrorEvent")]
+	</mx:Metadata>
+	<mx:Script>
+		<![CDATA[
+			import com.gaiaframework.panel.skin.StageManager;
+			import com.gaiaframework.panel.events.PanelErrorEvent;
+			import com.gaiaframework.panel.utils.ProjectUtils;
+			import com.gaiaframework.panel.events.GaiaPanelEvent;
+			import com.gaiaframework.panel.data.Project;
+			import com.gaiaframework.panel.services.Panel;
+			
+			private var _project:Project;
+			private var _cleanProjectURI:String = "";
+			
+			private var so:SharedObject = SharedObject.getLocal("gaiapanel");
+			
+			private var projectClone:Project;
+			
+			private var isValidated:Boolean;
+			
+			private var _collapsedPropertyTitle:String;
+			
+			[Bindable]
+			private var panelWidth:int = 278;
+			
+			[Bindable]
+			private var cpSwatchStyle:String = "";
+			
+			[Bindable]
+			public function get project():Project
+			{
+				return _project;
+			}
+			public function set project(value:Project):void
+			{
+				_project = value;
+				projectClone = _project.clone();
+			}
+			
+			[Bindable]
+			private function get cleanProjectURI():String
+			{
+				return _cleanProjectURI;
+			}
+			private function set cleanProjectURI(value:String):void
+			{
+				if (!value) _cleanProjectURI = "";
+				else _cleanProjectURI = value.split("file:///").join("").split("|/").join(":/").split("%20").join(" ");
+			}
+			
+			public function init():void
+			{
+				try
+				{
+					panelWidth = StageManager.scrollWidth;
+					INP_Flash.editable = INP_Publish.editable = INP_Classes.editable = !project.isCreated;
+					cleanProjectURI = project.uri;
+					verticalScrollPosition = 0;
+					validate();
+				}
+				catch (e:Error)
+				{
+					// ignore
+				}
+			}
+			
+			private function onClickProjectPath(event:MouseEvent):void
+			{
+				var folderPath:String = Panel.api.getFolderPath("Select a folder for your Gaia project");
+				if (folderPath && folderPath.length > 0)
+				{ 
+					project.uri = folderPath;
+					cleanProjectURI = folderPath;
+				}
+				validate();
+			}
+			
+			private function validate(event:Event = null):void
+			{
+				var isEditable:Boolean = (!project.isCreated || project.isScaffolded);
+				INP_Width.enabled = INP_Height.enabled = CHK_Width.enabled = CHK_Height.enabled = CP_Background.enabled = INP_FPS.enabled = isEditable;
+				if (isEditable)
+				{
+					CHK_CenterX.enabled = CHK_Width.selected;
+					CHK_CenterY.enabled = CHK_Height.selected;
+					CP_Background.alpha = TXT_StageColor.alpha = TXT_FPS.alpha = 1;
+				}
+				else
+				{
+					CHK_CenterX.enabled = CHK_CenterY.enabled = false;
+					CP_Background.alpha = TXT_StageColor.alpha = TXT_FPS.alpha = 0.5;
+				}
+				//
+				var modProject:Project = (!project.isScaffolded ? project : projectClone);
+				modProject.width = int(INP_Width.text);
+				modProject.height = int(INP_Height.text);
+				modProject.width100 = CHK_Width.selected;
+				modProject.height100 = CHK_Height.selected;
+				modProject.centerX = CHK_CenterX.selected;
+				modProject.centerY = CHK_CenterY.selected;
+				modProject.bgColor = String("00000" + CP_Background.selectedColor.toString(16).toUpperCase()).substr(-6);
+				modProject.fps = int(INP_FPS.text);
+				modProject.flashDevelop = CHK_FlashDevelop.selected;
+				modProject.flexBuilder = CHK_FlexBuilder.selected;
+				//
+				project.name = INP_Name.text;
+				//
+				var validName:Boolean = INP_Name.text.length > 0;
+				var validWidth:Boolean = int(INP_Width.text) > 0;
+				var validHeight:Boolean = int(INP_Height.text) > 0;
+				var validFPS:Boolean = int(INP_FPS.text) > 0 && int(INP_FPS.text) < 121; 
+				var validFlash:Boolean;
+				var validPublish:Boolean;
+				var validClasses:Boolean;
+				var validSiteXML:Boolean;
+				//
+				// mark invalid fields
+				INP_Name.styleName = validName ? "" : "invalidInput";
+				INP_Width.styleName = validWidth ? "" : "invalidInput";
+				INP_Height.styleName = validHeight ? "" : "invalidInput";
+				INP_FPS.styleName = validFPS ? "" : "invalidInput";
+				if (project.uri != null)
+				{
+					project.flashPath = INP_Flash.text;
+					project.publishPath = INP_Publish.text;
+					project.classesPath = INP_Classes.text;
+					project.siteXmlPath = INP_SiteXML.text;
+					//
+					validFlash = validateField(INP_Flash);
+					validPublish = validateField(INP_Publish);
+					validClasses = validateField(INP_Classes);
+					validSiteXML = validateSiteXML(INP_SiteXML);
+					//
+					INP_Flash.styleName = project.isCreated ? "uneditableInput" : validFlash ? "" : "invalidInput";
+					INP_Publish.styleName = project.isCreated ? "uneditableInput" : validPublish ? "" : "invalidInput";
+					INP_Classes.styleName = project.isCreated ? "uneditableInput" : validClasses ? "" : "invalidInput";
+					INP_SiteXML.styleName = validSiteXML ? "" : "invalidInput";
+					//
+					BTN_Default.enabled = true;
+					BTN_Default.alpha = 1;
+				}
+				else
+				{
+					BTN_Default.enabled = false;
+					BTN_Default.alpha = 0.5;
+				}
+				isValidated = validName && validWidth && validHeight && validFPS && validFlash && validPublish && validClasses && validSiteXML;
+				//
+				if (!project.isCreated)
+				{
+					BTN_Create.enabled = isValidated && project.uri;
+					BTN_Create.alpha = isValidated ? 1 : 0.5;
+				}
+				else if (project.isScaffolded)
+				{
+					var isModified:Boolean = !(project.width == projectClone.width && project.height == projectClone.height && project.width100 == projectClone.width100 && project.height100 == projectClone.height100 && project.centerX == projectClone.centerX && project.centerY == projectClone.centerY && project.bgColor == projectClone.bgColor && project.fps == projectClone.fps);
+					BTN_Apply.enabled = isValidated && isModified;
+					BTN_Apply.alpha = BTN_Apply.enabled ? 1 : 0.5;
+				}
+				if (isValidated) 
+				{
+					so.data.flashPath = INP_Flash.text;
+					so.data.publishPath = INP_Publish.text;
+					so.data.classesPath = INP_Classes.text;
+					so.data.siteXmlPath = INP_SiteXML.text;
+					so.data.flashDevelop = CHK_FlashDevelop.selected;
+					so.data.flexBuilder = CHK_FlexBuilder.selected;
+					so.flush();
+					dispatchEvent(new PanelErrorEvent(PanelErrorEvent.ALL_FIELDS_VALID));
+				}
+				else dispatchEvent(new PanelErrorEvent(PanelErrorEvent.INVALID_FIELDS));
+			}
+			private function validateField(label:TextInput):Boolean
+			{
+				var pattern:RegExp = /^[^\/][\sA-Za-z0-9\/_-]+[^\/]$/;
+				var doubleSlash:RegExp = /\/{2}/;
+				var spaceBetweenSlashes:RegExp =  /\/\s+\//;
+				return (label.text.length > 0 && pattern.test(label.text) && !doubleSlash.test(label.text) && !spaceBetweenSlashes.test(label.text));
+			}
+			private function validateSiteXML(label:TextInput):Boolean
+			{
+				return ((label.text.length == 0) || validateField(label));
+			}
+			private function onClickCreate(event:MouseEvent):void
+			{
+				create();
+			}
+			private function onPlayerChange(event:Event):void
+			{
+				project.player = String(RBG_Player.selectedValue);
+			}
+			private function create():void
+			{
+				Panel.api.create();
+				dispatchEvent(new GaiaPanelEvent(GaiaPanelEvent.CREATE_PROJECT));
+				validate();
+			}
+			private function onClickApply(event:MouseEvent):void
+			{
+				project.width = projectClone.width;
+				project.height = projectClone.height;
+				project.width100 = projectClone.width100;
+				project.height100 = projectClone.height100;
+				project.centerX = projectClone.centerX;
+				project.centerY = projectClone.centerY;
+				project.bgColor = projectClone.bgColor;
+				project.fps = projectClone.fps;
+				Panel.api.resize();
+			} 
+			private function onClickFinish(event:MouseEvent):void
+			{
+				Panel.api.syncProjectPublish(onFinishSync);
+			}
+			private function onClickDefault(event:MouseEvent):void
+			{
+				project.flashPath = "lib";
+				project.publishPath = "bin";
+				project.classesPath = "src";
+				project.siteXmlPath = "xml";
+				project.flashDevelop = false;
+				project.flexBuilder = false;
+			}
+			private function onFinishSync():void
+			{
+				validate();
+			}
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				panelWidth = StageManager.scrollWidth;
+				CP_Background.close();
+				if (panelWidth < 212)
+				{
+					cpSwatchStyle = "narrowColorPickerStyle";
+				}
+				else if (panelWidth < 231)
+				{
+					cpSwatchStyle = "mediumColorPickerStyle";
+				}
+				else
+				{
+					cpSwatchStyle = "wideColorPickerStyle";
+				}
+			}
+			private function get projectUpdatable():Boolean
+			{
+				return project.isCreated;
+			}
+			private function get projectWarning():Boolean
+			{
+				return project.version != Panel.VERSION;
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" verticalGap="1" paddingTop="2">
+	
+		<!-- INFO -->
+		<gaia:CollapsableTitle id="TITLE_Info" x="0" y="8" title="INFO" target="{VBox_Info}"/>
+		<mx:VBox id="VBox_Info" width="100%" verticalScrollPolicy="off" paddingTop="5">
+			<mx:Canvas height="108" width="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<mx:Label text="Project Name" 
+					x="10" y="0"/>
+				<mx:TextInput id="INP_Name" restrict="A-Z a-z0-9_.:()\-"
+					x="10" y="18" 
+					width="{panelWidth - INP_Name.x}"
+					text="{project.name}" change="validate(event)" />
+				<mx:HRule y="48" width="100%"/>
+				<gaia:FolderButton id="BTN_Path" click="onClickProjectPath(event)" enabled="{!project.isCreated}" buttonMode="{!project.isCreated}"
+					x="13" y="58"/>
+				<mx:Label id="TXT_NoPath" text="Click to select a project folder" color="#CC0000" selectable="false" visible="{!project.uri}" mouseChildren="false" buttonMode="true" click="onClickProjectPath(event)"
+					 x="27" y="56" width="180" textIndent="4"/>
+				<mx:Label id="TXT_Path" text="{cleanProjectURI}" selectable="false" visible="{Boolean(project.uri)}"
+					 x="31" y="56" width="{panelWidth - TXT_Path.x}"/>
+				<mx:HRule y="78" width="100%"/>
+				<mx:Label id="TXT_Player" text="{(!project.isCreated &amp;&amp; project.player != '8' &amp;&amp; Panel.api.getFlashVersion() != '8') ? 'Player: ' : 'Flash Player ' + project.player}" selectable="false"
+					x="10" y="86"/>
+				<mx:RadioButtonGroup id="RBG_Player" change="onPlayerChange(event)" selectedValue="{project.player}"/>
+				<mx:RadioButton label="9" value="9" groupName="RBG_Player" visible="{!project.isCreated &amp;&amp; project.player != '8' &amp;&amp; Panel.api.getFlashVersion() != '9'}"
+					x="55" y="84" width="50"/>
+				<mx:RadioButton label="10" value="10" groupName="RBG_Player" visible="{!project.isCreated &amp;&amp; project.player != '8' &amp;&amp; Panel.api.getFlashVersion() != '9'}"
+					x="95" y="84" width="50"/>
+				<mx:RadioButton label="11" value="11" groupName="RBG_Player" visible="{!project.isCreated &amp;&amp; project.player != '8' &amp;&amp; Panel.api.getFlashVersion() != '9'}"
+					x="140" y="84" width="50"/>
+				<mx:RadioButton label="8" value="8" groupName="RBG_Player" visible="false"
+					x="135" y="84" width="50"/>
+			</mx:Canvas>
+		</mx:VBox>
+		
+		<!-- VERSION -->
+		<gaia:CollapsableTitle id="TITLE_Version" x="0" y="55" title="VERSION" target="{VBox_Version}"/>
+		<mx:VBox id="VBox_Version" verticalScrollPolicy="off">
+			<mx:Canvas height="30" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<mx:Label 
+					id="LABEL_Gaia" text="Gaia:"
+					x="10" y="7"/>
+				<mx:Label 
+					id="TXT_Version" text="{project.version}" styleName="{project.version == Panel.VERSION ? '' : 'errorLabel'}"
+					x="76" y="7"/>
+				<gaia:VersionWarning version="{Panel.VERSION}" visible="{projectWarning}"
+					x="{int(Math.max(158, TXT_Version.x + TXT_Version.width + 7))}" y="7"
+					/>
+				<mx:Button id="BTN_GaiaUpdate" click="Panel.api.update()" visible="{projectUpdatable}"
+					x="{panelWidth - BTN_GaiaUpdate.width}" y="6" label="Update" width="51"  height="18"/>
+			</mx:Canvas>
+		</mx:VBox>
+		
+		<!-- DIMENSIONS -->
+		<gaia:CollapsableTitle id="TITLE_Properties"
+			x="0" y="133" title="PROPERTIES" target="{VBox_Properties}"/>
+		<mx:VBox id="VBox_Properties" verticalScrollPolicy="off">
+			<mx:Canvas height="103" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+							
+				<!-- DIMENSIONS -->
+				<mx:Label x="9" y="12" width="20" text="W:" textAlign="right"/>
+				<mx:TextInput id="INP_Width" text="{project.width}" change="validate(event)"
+					x="30" y="10" width="37" maxChars="4" restrict="0-9"/>
+				<mx:Label x="9" y="42" width="20" text="H:" textAlign="right"/>
+				<mx:TextInput id="INP_Height" text="{project.height}" change="validate(event)"
+					 x="30" y="41" width="37" maxChars="4" restrict="0-9"/>
+					 
+				<!-- 100% -->
+				<mx:CheckBox id="CHK_Width" selected="{project.width100}" change="validate(event)" toolTip="100% Width"
+					 x="{Math.round(INP_Width.x + INP_Width.width + 2 + ((CHK_CenterX.x - (INP_Width.x + INP_Width.width) - CHK_Width.width) / 2))}" 
+					 y="10" label="100%" height="19"/>
+				<mx:CheckBox id="CHK_Height" selected="{project.height100}" change="validate(event)" toolTip="100% Width"
+				 	x="{Math.round(INP_Height.x + INP_Height.width + 2 + ((CHK_CenterY.x - (INP_Height.x + INP_Height.width) - CHK_Height.width) / 2))}" 
+				 	y="41" label="100%" height="19"/>
+					 
+				<!-- ALIGNMENT -->
+				<mx:CheckBox id="CHK_CenterX" selected="{project.centerX}" change="validate(event)" toolTip="Center Horizontally In Browser"
+					 x="{Math.round(Math.min(143, panelWidth - CHK_CenterX.width + 7))}" 
+					 y="10" label="Center X" height="19"/>				
+				<mx:CheckBox id="CHK_CenterY" selected="{project.centerY}" change="validate(event)" toolTip="Center Vertically In Browser"
+				 	x="{CHK_CenterX.x}"
+				 	y="41" label="Center Y" height="19"/>
+				
+				<!-- FPS -->
+				<mx:Label id="TXT_FPS" x="3" y="74" text="FPS:"/>
+				<mx:TextInput id="INP_FPS" x="30" y="72" width="30" maxChars="3" restrict="0-9" change="validate(event)" text="{project.fps}"/>
+				
+				<!-- BACKGROUND COLOR -->
+				
+				<mx:Label id="TXT_StageColor" 
+					x="{CHK_Height.x - 6}"
+					y="74" text="Stage:"/>
+				<gc:GaiaColorPicker id="CP_Background" change="validate(event)" selectedColor = "{uint('0x' + project.bgColor)}" swatchPanelStyleName="{cpSwatchStyle}"
+					x="{TXT_StageColor.x + TXT_StageColor.width}" y="72"/>
+				
+				
+				<!-- RESIZE -->	
+				<mx:Button id="BTN_Apply" click="onClickApply(event)" visible="{project.isScaffolded}"
+					label="Apply"
+					x="{panelWidth - BTN_Apply.width}" y="73" width="50" height="18"/>
+					
+			</mx:Canvas>
+		</mx:VBox>
+		
+		<!-- FOLDER PATHS -->
+		<gaia:CollapsableTitle id="TITLE_FolderPaths"
+			x="0" y="255" title="FOLDER PATHS" target="{VBox_FolderPaths}"/>
+		
+		<!-- Flash Files -->
+		<mx:VBox id="VBox_FolderPaths" x="0" y="282" width="100%" height="100%" paddingBottom="10" verticalScrollPolicy="off">
+			<mx:Canvas width="100%" height="{project.isCreated || project.isImported ? 43 : 53}" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Label x="10" y="10" text="Flash Files (.fla)"/>
+				<gaia:HelpButton id="HELP_Flash" 
+					x="{panelWidth - HELP_Flash.width - 10}" 
+					y="10"
+					toolTip="This folder is for Flash files"
+					url="http://www.gaiaflashframework.com/wiki/index.php?title=Getting_Started#Folder_Paths"/>
+				<mx:TextInput id="INP_Flash" text="{project.flashPath}" change="validate(event)"
+					enabled="{project.uri != null}" restrict="a-z A-Z0-9_/\-" editable="{!project.isCreated &amp;&amp; !project.isImported}"
+					x="10" y="28" width="{panelWidth - INP_Flash.x - 10}" />
+			</mx:Canvas>
+			
+			<mx:HRule width="100%"/>
+			
+			<!-- Publish Path -->
+			<mx:Canvas width="100%" height="{project.isCreated || project.isImported ? 33 : 43}" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Label x="10" text="Publish Folder (.swf)"/>
+				<gaia:HelpButton id="HELP_Publish" x="{panelWidth - HELP_Publish.width - 10}"
+					toolTip="This folder is for published files including .swf, .html, .js, etc."
+					url="http://www.gaiaflashframework.com/wiki/index.php?title=Getting_Started#Folder_Paths"/>
+				<mx:TextInput id="INP_Publish" text="{project.publishPath}" change="validate(event)"
+					enabled="{project.uri != null}" restrict="a-z A-Z0-9_/\-" editable="{!project.isCreated &amp;&amp; !project.isImported}"
+					x="10" y="18" width="{panelWidth - INP_Publish.x - 10}" />
+			</mx:Canvas>
+			
+			<mx:HRule width="100%"/>
+			
+			<!-- Class Path -->
+			<mx:Canvas width="100%" height="{project.isCreated || project.isImported ? 33 : 43}" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Label x="10" text="Classes (.as)" />
+				<gaia:HelpButton id="HELP_Classes" x="{panelWidth - HELP_Classes.width - 10}"
+					toolTip="This folder is where all the Gaia classes are located"
+					url="http://www.gaiaflashframework.com/wiki/index.php?title=Getting_Started#Folder_Paths"/>
+				<mx:TextInput id="INP_Classes" text="{project.classesPath}" change="validate(event)"
+					enabled="{project.uri != null}" restrict="a-z A-Z0-9_/\-" editable="{!project.isCreated &amp;&amp; !project.isImported}"
+					x="10" y="18" width="{panelWidth - INP_Classes.x - 10}"/>
+			</mx:Canvas>
+			
+			<mx:HRule width="100%"/>
+			
+			<!-- Site XML -->
+			<mx:Canvas width="100%" height="43" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Label x="10" text="{project.publishPath}/{project.siteXmlPath.length > 0 ? project.siteXmlPath + '/' : ''}site.xml"/>
+				<gaia:HelpButton id="HELP_SiteXML" x="{panelWidth - HELP_SiteXML.width - 10}"
+					toolTip="Set this if you want to put your site.xml inside a folder path inside of {project.publishPath} such as xml"
+					url="http://www.gaiaflashframework.com/wiki/index.php?title=Getting_Started#Folder_Paths"/>
+				<mx:TextInput id="INP_SiteXML" text="{project.siteXmlPath}" change="validate(event)"
+					enabled="{project.uri != null}" restrict="a-z A-Z0-9_/\-"
+					x="10" y="18" width="{panelWidth - INP_SiteXML.x - 10}"/>
+			</mx:Canvas>
+			
+			<mx:HRule width="100%"/>
+			
+			<mx:Canvas width="100%" height="{!(project.isCreated || project.isImported) ? 37 : 0}" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Label x="10" y="1" text="Create Project Files For" fontWeight="bold"/>
+				<mx:HBox horizontalScrollPolicy="off" verticalScrollPolicy="off"
+					width="{panelWidth}" x="11" y="19" height="19">
+					<mx:CheckBox id="CHK_FlashDevelop" selected="{project.flashDevelop}" label="FlashDevelop" change="validate(event)" 
+					height="19"/>
+					<mx:CheckBox id="CHK_FlexBuilder" selected="{project.flexBuilder}" label="FlexBuilder" change="validate(event)" visible="{project.language == Project.AS3}"
+					height="19"/>
+				</mx:HBox>
+			</mx:Canvas>	
+			
+			<mx:Canvas width="100%" height="{BTN_Create.visible || BTN_Finish.visible || BTN_Default.visible ? 30 : 0}" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+				<mx:Button id="BTN_Default" click="onClickDefault(event)" visible="{!project.isCreated &amp;&amp; !project.isImported}"
+					label="Reset"
+					x="10" y="6" width="45" height="18"/>
+				<mx:Button id="BTN_Create" click="onClickCreate(event)" visible="{!project.isCreated &amp;&amp; !project.isImported}"
+					label="Create New Project"
+					x="{panelWidth - BTN_Create.width - 10}" y="6" width="110" height="18"/>
+				<mx:Button id="BTN_Finish" click="onClickFinish(event)" visible="{project.isImported}"
+					label="Finish Import" toolTip="Update the site.xml path before finishing your import"
+					x="{panelWidth - BTN_Finish.width - 10}" y="6" width="85" height="18"/>
+			</mx:Canvas>			
+			
+		</mx:VBox>
+	</mx:VBox>
+</mx:Canvas>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="18" backgroundColor="#CCCCCC" creationComplete="init()" currentState="Expanded">
+	<mx:states>
+		<mx:State name="Collapsed">
+			<mx:SetProperty target="{arrow}" name="source" value="{ArrowRight}"/>
+			<mx:SetProperty target="{arrow}" name="x" value="6"/>
+			<mx:SetProperty target="{arrow}" name="y" value="3"/>
+		</mx:State>
+		<mx:State name="Expanded"/>
+	</mx:states>
+	<mx:Script>
+		<![CDATA[
+			import mx.containers.VBox;
+			import mx.effects.easing.Sine;
+			
+			[Bindable]
+			private var easeFunc:Function = Sine.easeInOut;
+			
+			public function set title(value:String):void
+			{
+				_title = value;
+				_currentTitle = value;
+			}
+			public function set collapsedTitle(value:String):void
+			{
+				_collapsedTitle = value;
+			}
+			
+			private var _title:String;
+			private var _collapsedTitle:String;
+			
+			[Bindable]
+			private var _currentTitle:String;
+			
+			[Embed("/assets/flash/arrow_down.png")]
+			[Bindable]
+			public var ArrowDown:Class;
+			
+			[Embed("/assets/flash/arrow_right.png")]
+			[Bindable]
+			public var ArrowRight:Class;
+			
+			[Bindable]
+			private var targetHeight:Number;
+			
+			[Bindable]
+			public var target:VBox;
+			
+			private function init():void
+			{
+				addEventListener(MouseEvent.CLICK, onClick);
+			}
+			private function onClick(event:MouseEvent):void
+			{
+				if (currentState == "Collapsed")
+				{
+					_currentTitle = _title;
+					currentState = "Expanded";
+				}
+				else
+				{
+					_currentTitle = _title;
+					targetHeight = target.height;
+					currentState = "Collapsed";
+				}
+			}
+		]]>
+	</mx:Script>
+	<mx:transitions>
+		<mx:Transition fromState="Expanded" toState="Collapsed">
+			<mx:Sequence>
+				<mx:Resize target="{target}" duration="250" heightTo="0" easingFunction="{easeFunc}"/>
+			</mx:Sequence>
+		</mx:Transition>
+		<mx:Transition fromState="Collapsed" toState="Expanded">
+			<mx:Sequence>
+				<mx:Resize target="{target}" duration="250" heightTo="{targetHeight}" easingFunction="{easeFunc}"/>
+			</mx:Sequence>
+		</mx:Transition>
+	</mx:transitions>
+	<mx:Label x="20" y="2" text="{_currentTitle}" styleName="sectionTitle" id="TXT_Label"/>
+	<mx:Image x="3" y="6" source="{ArrowDown}" id="arrow"/>
+</mx:Canvas>

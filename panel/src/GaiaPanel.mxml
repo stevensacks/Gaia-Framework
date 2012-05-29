@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" 
+		   xmlns:sv="com.gaiaframework.panel.services.*"
+		   xmlns:jsfl="com.gaiaframework.panel.services.jsfl.*"
+		   xmlns:test="com.gaiaframework.panel.services.test.*"
+		   xmlns:gaia="*"
+		   width="100%" height="100%" 
+		   x="0" y="0"
+		   horizontalScrollPolicy="off"
+		   verticalPageScrollSize="200" verticalLineScrollSize="35"
+ 		   currentState="gaia">
+		   
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+
+			private function onProjectLoaded(event:Event):void
+			{
+				currentState = "project";
+				editView.openProject();
+			}
+			private function onCloseProject(event:CloseEvent):void
+			{
+				currentState = "gaia";
+			}
+		]]>
+	</mx:Script>	
+	<sv:Panel>
+		<sv:mediator>
+			<jsfl:JSFL/>
+			<!--<test:TEST/>-->
+		</sv:mediator>
+		<sv:model>
+			<sv:ProjectModel complete="onProjectLoaded(event)"/>
+		</sv:model>
+		<sv:panelModel>
+			<sv:PanelModel/>
+		</sv:panelModel>
+	</sv:Panel>
+	
+	<mx:states>
+		<mx:State name="gaia">
+			<mx:AddChild position="lastChild">
+				<gaia:GaiaView y="43"/>
+			</mx:AddChild>
+		</mx:State>
+		<mx:State name="project">
+			<mx:AddChild position="lastChild">
+				<gaia:EditView id="editView" y="43" close="onCloseProject(event)"/>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+</mx:Canvas>

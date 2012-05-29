@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<macromedia-extension name="Gaia Framework" version="3.3.0" type="suite" requires-restart="true" ismultilingual="false">
+
+	<defaultLanguage>en_US</defaultLanguage> 
+	
+	<!-- Describe the author -->
+
+	<author name="Steven Sacks" />
+
+	<!-- List the required/compatible products -->
+
+	<products>
+		<product name="Flash" version="9" primary="true" />
+		<product name="Flash" version="10" primary="true" />
+	</products>
+
+	<!-- Describe the extension -->
+
+	<description>
+		<![CDATA[Gaia Framework For Adobe Flash ©2007-2012<br>Version 3.3.0<br><br>Author: Steven Sacks<br>* git: https://github.com/stevensacks/Gaia-Framework<br>* support: http://gaiaflashframework.tenderapp.com/<br><br>Gaia Framework for Adobe Flash is released under the MIT License:<br>http://www.opensource.org/licenses/mit-license.php<br>]]>
+	</description>
+
+	<!-- Describe where the extension shows in the UI of the product -->
+
+	<ui-access>
+		<![CDATA[This panel can be found under Window > Other Panels > Gaia Framework]]>
+	</ui-access>
+
+	<!-- Describe the files that comprise the extension -->
+
+	<files>
+		<!-- GAIA PANEL -->
+			<file name="panel/bin-release/Gaia Framework.swf" destination="$flash/WindowSWF" />
+			<file name="panel/GaiaScaffold.jsfl" destination="$flash/GaiaFramework" />
+			<file name="panel/GaiaProject.jsfl" destination="$flash/GaiaFramework" />
+			<file name="panel/GaiaSEO.jsfl" destination="$flash/GaiaFramework" />
+			<file name="panel/GaiaOptimize.jsfl" destination="$flash/GaiaFramework" />
+			<file name="panel/Gaia Test Project.jsfl" destination="$flash/Commands" minVersion="10"/>
+		<!-- END GAIA PANEL -->
+		
+		<!-- AS2 SCAFFOLDING -->
+			<file name="framework/as2/f9/main.fla" destination="$flash/GaiaFramework/gaia/as2/__GaiaSrc9" />
+			<file name="framework/as2/f9/preload.fla" destination="$flash/GaiaFramework/gaia/as2/__GaiaSrc9" />
+			<file name="framework/as2/f9/ASpage.fla" destination="$flash/GaiaFramework/gaia/as2/templates9" />
+			<file name="framework/as2/f9/TLpage.fla" destination="$flash/GaiaFramework/gaia/as2/templates9" />
+			<file name="framework/as2/f10/main.fla" destination="$flash/GaiaFramework/gaia/as2/__GaiaSrc10" />
+			<file name="framework/as2/f10/preload.fla" destination="$flash/GaiaFramework/gaia/as2/__GaiaSrc10" />
+			<file name="framework/as2/f10/ASpage.fla" destination="$flash/GaiaFramework/gaia/as2/templates10" />
+			<file name="framework/as2/f10/TLpage.fla" destination="$flash/GaiaFramework/gaia/as2/templates10" />
+			<file name="framework/as2/f11/main.fla" destination="$flash/GaiaFramework/gaia/as2/__GaiaSrc11" />
+			<file name="framework/as2/f11/preload.fla" destination="$flash/GaiaFramework/gaia/as2/__GaiaSrc11" />
+			<file name="framework/as2/f11/ASpage.fla" destination="$flash/GaiaFramework/gaia/as2/templates11" />
+			<file name="framework/as2/f11/TLpage.fla" destination="$flash/GaiaFramework/gaia/as2/templates11" />
+			<file name="framework/as2/Page.as" destination="$flash/GaiaFramework/gaia/as2/templates/Page.as" />
+			<file name="framework/as2/Pages.as" destination="$flash/GaiaFramework/gaia/as2/templates/Pages.as" />
+			<file name="framework/as2/Preloader.as" destination="$flash/GaiaFramework/gaia/as2/templates/Preloader.as" />
+			<file name="framework/as2/PreloaderScaffold.as" destination="$flash/GaiaFramework/gaia/as2/templates/PreloaderScaffold.as" />
+			<file name="framework/as2/Scaffold.as" destination="$flash/GaiaFramework/gaia/as2/templates/Scaffold.as" />
+			<file name="framework/as2/exclude.xml" destination="$flash/GaiaFramework/gaia/as2/templates/exclude.xml" />
+		<!-- END AS2 SCAFFOLDING -->
+		
+		<!-- AS2 CLASSES -->
+			<file name="framework/as2/classes/Main.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/Main.as" />
+			<!-- API -->
+			<file name="framework/as2/classes/com/gaiaframework/api/Gaia.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/api/Gaia.as" />
+			<file name="framework/as2/classes/com/gaiaframework/api/IBase.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/api/IBase.as" />
+			<file name="framework/as2/classes/com/gaiaframework/api/IGaia.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/api/IGaia.as" />
+			<file name="framework/as2/classes/com/gaiaframework/api/IPage.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/api/IPage.as" />
+			<file name="framework/as2/classes/com/gaiaframework/api/IPreloader.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/api/IPreloader.as" />
+			<!-- ASSETS -->
+			<file name="framework/as2/classes/com/gaiaframework/assets/AbstractAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/AbstractAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/AssetCreator.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/AssetCreator.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/AssetLoader.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/AssetLoader.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/AssetTypes.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/AssetTypes.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/MovieClipAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/MovieClipAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/NetStreamAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/NetStreamAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/PageAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/PageAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/SEOAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/SEOAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/SoundAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/SoundAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/SoundClipAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/SoundClipAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/StyleSheetAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/StyleSheetAsset.as" />
+			<file name="framework/as2/classes/com/gaiaframework/assets/XMLAsset.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/assets/XMLAsset.as" />
+			<!-- CORE -->
+			<file name="framework/as2/classes/com/gaiaframework/core/BranchIterator.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/BranchIterator.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/BranchLoader.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/BranchLoader.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/BranchManager.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/BranchManager.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/BranchTools.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/BranchTools.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/GaiaContextMenu.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/GaiaContextMenu.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/GaiaHQ.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/GaiaHQ.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/GaiaHQListener.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/GaiaHQListener.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/GaiaImpl.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/GaiaImpl.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/GaiaMain.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/GaiaMain.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/GaiaSWFAddress.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/GaiaSWFAddress.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/PreloadController.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/PreloadController.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/SiteController.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/SiteController.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/SiteModel.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/SiteModel.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/SiteView.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/SiteView.as" />
+			<file name="framework/as2/classes/com/gaiaframework/core/TransitionController.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/core/TransitionController.as" />
+			<!-- DEBUG -->
+			<file name="framework/as2/classes/com/gaiaframework/debug/GaiaDebug.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/debug/GaiaDebug.as" />
+			<!-- EVENTS -->
+			<file name="framework/as2/classes/com/gaiaframework/events/AssetEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/AssetEvent.as" />
+			<file name="framework/as2/classes/com/gaiaframework/events/BranchLoaderEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/BranchLoaderEvent.as" />
+			<file name="framework/as2/classes/com/gaiaframework/events/Event.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/Event.as" />
+			<file name="framework/as2/classes/com/gaiaframework/events/GaiaEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/GaiaEvent.as" />
+			<file name="framework/as2/classes/com/gaiaframework/events/GaiaSWFAddressEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/GaiaSWFAddressEvent.as" />
+			<file name="framework/as2/classes/com/gaiaframework/events/NetStreamAssetEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/NetStreamAssetEvent.as" />
+			<file name="framework/as2/classes/com/gaiaframework/events/PageEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/PageEvent.as" />
+			<file name="framework/as2/classes/com/gaiaframework/events/SoundGroupEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/events/SoundGroupEvent.as" />
+			<!-- FLOW -->
+			<file name="framework/as2/classes/com/gaiaframework/flow/FlowManager.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/flow/FlowManager.as" />
+			<file name="framework/as2/classes/com/gaiaframework/flow/NormalFlow.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/flow/NormalFlow.as" />
+			<file name="framework/as2/classes/com/gaiaframework/flow/PreloadFlow.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/flow/PreloadFlow.as" />
+			<file name="framework/as2/classes/com/gaiaframework/flow/ReverseFlow.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/flow/ReverseFlow.as" />
+			<file name="framework/as2/classes/com/gaiaframework/flow/CrossFlow.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/flow/CrossFlow.as" />
+			<!-- TEMPLATES -->
+			<file name="framework/as2/classes/com/gaiaframework/templates/AbstractBase.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/templates/AbstractBase.as" />
+			<file name="framework/as2/classes/com/gaiaframework/templates/AbstractPage.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/templates/AbstractPage.as" />
+			<file name="framework/as2/classes/com/gaiaframework/templates/AbstractPreloader.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/templates/AbstractPreloader.as" />
+			<!-- UTILS -->
+			<file name="framework/as2/classes/com/gaiaframework/utils/AssetFilter.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/AssetFilter.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/CacheBuster.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/CacheBuster.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/DocumentClass.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/DocumentClass.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/ObservableClass.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/ObservableClass.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/ObservableClip.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/ObservableClip.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/SoundGroup.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/SoundGroup.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/SoundUtils.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/SoundUtils.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/Tracking.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/Tracking.as" />
+			<file name="framework/as2/classes/com/gaiaframework/utils/XML2AS.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/gaiaframework/utils/XML2AS.as" />
+			<!-- SWFADDRESS -->
+			<file name="framework/as2/classes/com/asual/swfaddress/SWFAddress.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/asual/swfaddress/SWFAddress.as" />
+			<file name="framework/as2/classes/com/asual/swfaddress/SWFAddressEvent.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/asual/swfaddress/SWFAddressEvent.as" />
+			<!-- TWEENLITE -->
+			<file name="framework/as2/classes/com/greensock/OverwriteManager.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/OverwriteManager.as" />
+			<file name="framework/as2/classes/com/greensock/TimelineLite.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/TimelineLite.as" />
+			<file name="framework/as2/classes/com/greensock/TimelineMax.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/TimelineMax.as" />
+			<file name="framework/as2/classes/com/greensock/TweenAlign.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/TweenAlign.as" />
+			<file name="framework/as2/classes/com/greensock/TweenLite.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/TweenLite.as" />
+			<file name="framework/as2/classes/com/greensock/TweenMax.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/TweenMax.as" />
+			<file name="framework/as2/classes/com/greensock/TweenNano.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/TweenNano.as" />
+			<file name="framework/as2/classes/com/greensock/changelog.txt" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/changelog.txt" />
+			
+			<file name="framework/as2/classes/com/greensock/core/PropTween.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/core/PropTween.as" />
+			<file name="framework/as2/classes/com/greensock/core/SimpleTimeline.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/core/SimpleTimeline.as" />
+			<file name="framework/as2/classes/com/greensock/core/TweenCore.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/core/TweenCore.as" />
+			
+			<file name="framework/as2/classes/com/greensock/easing/helpers/EasePoint.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/helpers/EasePoint.as" />
+			
+			<file name="framework/as2/classes/com/greensock/easing/Back.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Back.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Bounce.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Bounce.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Circ.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Circ.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Cubic.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Cubic.as" />
+			<file name="framework/as2/classes/com/greensock/easing/EaseLookup.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/EaseLookup.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Elastic.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Elastic.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Expo.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Expo.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Linear.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Linear.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Quad.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Quad.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Quart.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Quart.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Quint.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Quint.as" />
+			<file name="framework/as2/classes/com/greensock/easing/RoughEase.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/RoughEase.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Sine.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Sine.as" />
+			<file name="framework/as2/classes/com/greensock/easing/Strong.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/easing/Strong.as" />
+			
+			<file name="framework/as2/classes/com/greensock/plugins/helpers/ArrayTweenInfo.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/helpers/ArrayTweenInfo.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/helpers/Physics2DProp.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/helpers/Physics2DProp.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/helpers/PhysicsProp.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/helpers/PhysicsProp.as" />
+			
+			<file name="framework/as2/classes/com/greensock/plugins/AutoAlphaPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/AutoAlphaPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/BevelFilterPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/BevelFilterPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/BezierPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/BezierPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/BezierThroughPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/BezierThroughPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/BlurFilterPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/BlurFilterPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/ColorMatrixFilterPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/ColorMatrixFilterPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/ColorTransformPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/ColorTransformPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/DropShadowFilterPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/DropShadowFilterPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/EndArrayPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/EndArrayPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/FilterPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/FilterPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/FrameBackwardPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/FrameBackwardPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/FrameForwardPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/FrameForwardPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/FrameLabelPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/FrameLabelPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/FramePlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/FramePlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/GlowFilterPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/GlowFilterPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/HexColorsPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/HexColorsPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/QuaternionsPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/QuaternionsPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/RemoveTintPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/RemoveTintPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/RoundPropsPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/RoundPropsPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/ScalePlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/ScalePlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/ScrollRectPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/ScrollRectPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/SetSizePlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/SetSizePlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/ShortRotationPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/ShortRotationPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/TintPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/TintPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/TransformMatrixPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/TransformMatrixPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/TweenPlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/TweenPlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/VisiblePlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/VisiblePlugin.as" />
+			<file name="framework/as2/classes/com/greensock/plugins/VolumePlugin.as" destination="$flash/GaiaFramework/gaia/as2/__GaiaClasses/com/greensock/plugins/VolumePlugin.as" />
+		<!-- END AS2 CLASSES -->
+		
+		<!-- AS2 DEPLOY -->
+			<file name="framework/as2/index.html" destination="$flash/GaiaFramework/gaia/as2/__GaiaDeploy/index.html" />
+			<file name="framework/as2/scaffold.swf" destination="$flash/GaiaFramework/gaia/as2/__GaiaDeploy/scaffold.swf" />
+			<file name="deploy/expressInstall.swf" destination="$flash/GaiaFramework/gaia/as2/__GaiaDeploy/expressInstall.swf" />
+			<file name="deploy/site.xml" destination="$flash/GaiaFramework/gaia/as2/__GaiaDeploy/site.xml" />
+			<file name="deploy/js/swfaddress.js" destination="$flash/GaiaFramework/gaia/as2/__GaiaDeploy/js/swfaddress.js" />
+			<file name="deploy/js/swfobject.js" destination="$flash/GaiaFramework/gaia/as2/__GaiaDeploy/js/swfobject.js" />
+		<!-- END AS2 DEPLOY -->
+		
+		<!-- AS3 SCAFFOLDING -->
+			<file name="framework/as3/f9/main.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc9/main.fla" />
+			<file name="framework/as3/f9/preload.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc9/preload.fla" />
+			<file name="framework/as3/f9/ASpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates9/ASpage.fla" />
+			<file name="framework/as3/f9/TLpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates9/TLpage.fla" />
+			<file name="framework/as3/f10/main.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc10/main.fla" />
+			<file name="framework/as3/f10/preload.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc10/preload.fla" />
+			<file name="framework/as3/f10/ASpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates10/ASpage.fla" />
+			<file name="framework/as3/f10/TLpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates10/TLpage.fla" />
+			<file name="framework/as3/f10_10/main.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc10_10/main.fla" />
+			<file name="framework/as3/f10_10/preload.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc10_10/preload.fla" />
+			<file name="framework/as3/f10_10/ASpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates10_10/ASpage.fla" />
+			<file name="framework/as3/f10_10/TLpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates10_10/TLpage.fla" />
+			<file name="framework/as3/f11/main.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc11/main.fla" />
+			<file name="framework/as3/f11/preload.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc11/preload.fla" />
+			<file name="framework/as3/f11/ASpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates11/ASpage.fla" />
+			<file name="framework/as3/f11/TLpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates11/TLpage.fla" />
+			<file name="framework/as3/f11_10/main.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc11_10/main.fla" />
+			<file name="framework/as3/f11_10/preload.fla" destination="$flash/GaiaFramework/gaia/as3/__GaiaSrc11_10/preload.fla" />
+			<file name="framework/as3/f11_10/ASpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates11_10/ASpage.fla" />
+			<file name="framework/as3/f11_10/TLpage.fla" destination="$flash/GaiaFramework/gaia/as3/templates11_10/TLpage.fla" />
+			<file name="framework/as3/Page.as" destination="$flash/GaiaFramework/gaia/as3/templates/Page.as" />
+			<file name="framework/as3/Pages.as" destination="$flash/GaiaFramework/gaia/as3/templates/Pages.as" />
+			<file name="framework/as3/Preloader.as" destination="$flash/GaiaFramework/gaia/as3/templates/Preloader.as" />
+			<file name="framework/as3/PreloaderScaffold.as" destination="$flash/GaiaFramework/gaia/as3/templates/PreloaderScaffold.as" />
+			<file name="framework/as3/Scaffold.as" destination="$flash/GaiaFramework/gaia/as3/templates/Scaffold.as" />
+		<!-- END AS3 SCAFFOLDING -->
+		
+		<!-- AS3 CLASSES -->
+			<file name="framework/as3/classes/Main.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/Main.as" />
+			<!-- SWC -->
+			<file name="framework/as3/greensock.swc" destination="$flash/GaiaFramework/gaia/as3/greensock.swc" />
+			<!-- API -->
+			<file name="framework/as3/classes/com/gaiaframework/api/Gaia.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/Gaia.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IBase.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IBase.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IBitmap.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IBitmap.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IBitmapSprite.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IBitmapSprite.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IByteArray.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IByteArray.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IDisplayObject.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IDisplayObject.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IGaia.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IGaia.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IJson.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IJson.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IMovieClip.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IMovieClip.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/INetStream.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/INetStream.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IPage.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IPage.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IPageAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IPageAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IPreloader.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IPreloader.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/ISound.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/ISound.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/ISprite.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/ISprite.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IStyleSheet.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IStyleSheet.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IText.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IText.as" />
+			<file name="framework/as3/classes/com/gaiaframework/api/IXml.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/api/IXml.as" />
+			<!-- ASSETS -->
+			<file name="framework/as3/classes/com/gaiaframework/assets/AbstractAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/AbstractAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/AssetCreator.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/AssetCreator.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/AssetLoader.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/AssetLoader.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/AssetTypes.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/AssetTypes.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/BitmapAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/BitmapAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/BitmapSpriteAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/BitmapSpriteAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/ByteArrayAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/ByteArrayAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/DisplayObjectAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/DisplayObjectAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/JSONAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/JSONAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/MovieClipAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/MovieClipAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/NetStreamAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/NetStreamAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/PageAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/PageAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/SEOAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/SEOAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/SoundAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/SoundAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/SpriteAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/SpriteAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/StyleSheetAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/StyleSheetAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/TextAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/TextAsset.as" />
+			<file name="framework/as3/classes/com/gaiaframework/assets/XMLAsset.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/assets/XMLAsset.as" />
+			<!-- CORE -->
+			<file name="framework/as3/classes/com/gaiaframework/core/BranchIterator.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/BranchIterator.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/BranchLoader.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/BranchLoader.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/BranchManager.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/BranchManager.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/BranchTools.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/BranchTools.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/gaia_internal.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/gaia_internal.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/GaiaContextMenu.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/GaiaContextMenu.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/GaiaFonts.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/GaiaFonts.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/GaiaHQ.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/GaiaHQ.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/GaiaHQListener.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/GaiaHQListener.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/GaiaImpl.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/GaiaImpl.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/GaiaMain.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/GaiaMain.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/GaiaSWFAddress.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/GaiaSWFAddress.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/PreloadController.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/PreloadController.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/SiteController.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/SiteController.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/SiteModel.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/SiteModel.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/SiteView.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/SiteView.as" />
+			<file name="framework/as3/classes/com/gaiaframework/core/TransitionController.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/core/TransitionController.as" />
+			<!-- DEBUG -->
+			<file name="framework/as3/classes/com/gaiaframework/debug/GaiaDebug.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/debug/GaiaDebug.as" />
+			<!-- EVENTS -->
+			<file name="framework/as3/classes/com/gaiaframework/events/AssetEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/events/AssetEvent.as" />
+			<file name="framework/as3/classes/com/gaiaframework/events/BranchLoaderEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/events/BranchLoaderEvent.as" />
+			<file name="framework/as3/classes/com/gaiaframework/events/GaiaEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/events/GaiaEvent.as" />
+			<file name="framework/as3/classes/com/gaiaframework/events/GaiaSWFAddressEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/events/GaiaSWFAddressEvent.as" />
+			<file name="framework/as3/classes/com/gaiaframework/events/PageEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/events/PageEvent.as" />
+			<file name="framework/as3/classes/com/gaiaframework/events/NetStreamAssetEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/events/NetStreamAssetEvent.as" />
+			<file name="framework/as3/classes/com/gaiaframework/events/SoundGroupEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/events/SoundGroupEvent.as" />
+			<!-- FLOW -->
+			<file name="framework/as3/classes/com/gaiaframework/flow/FlowManager.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/flow/FlowManager.as" />
+			<file name="framework/as3/classes/com/gaiaframework/flow/NormalFlow.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/flow/NormalFlow.as" />
+			<file name="framework/as3/classes/com/gaiaframework/flow/PreloadFlow.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/flow/PreloadFlow.as" />
+			<file name="framework/as3/classes/com/gaiaframework/flow/ReverseFlow.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/flow/ReverseFlow.as" />
+			<file name="framework/as3/classes/com/gaiaframework/flow/CrossFlow.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/flow/CrossFlow.as" />
+			<!-- TEMPLATES -->
+			<file name="framework/as3/classes/com/gaiaframework/templates/AbstractBase.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/templates/AbstractBase.as" />
+			<file name="framework/as3/classes/com/gaiaframework/templates/AbstractPage.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/templates/AbstractPage.as" />
+			<file name="framework/as3/classes/com/gaiaframework/templates/AbstractPreloader.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/templates/AbstractPreloader.as" />
+			<!-- UTILS -->
+			<file name="framework/as3/classes/com/gaiaframework/utils/AssetFilter.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/utils/AssetFilter.as" />
+			<file name="framework/as3/classes/com/gaiaframework/utils/CacheBuster.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/utils/CacheBuster.as" />
+			<file name="framework/as3/classes/com/gaiaframework/utils/SoundGroup.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/utils/SoundGroup.as" />
+			<file name="framework/as3/classes/com/gaiaframework/utils/SoundUtils.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/utils/SoundUtils.as" />
+			<file name="framework/as3/classes/com/gaiaframework/utils/Tracking.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/gaiaframework/utils/Tracking.as" />
+			<!-- SWFADDRESS -->
+			<file name="framework/as3/classes/com/asual/swfaddress/SWFAddress.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/asual/swfaddress/SWFAddress.as" />
+			<file name="framework/as3/classes/com/asual/swfaddress/SWFAddressEvent.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/asual/swfaddress/SWFAddressEvent.as" />
+			<!-- SWFWHEEL -->
+			<file name="framework/as3/classes/org/libspark/ui/SWFWheel.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/org/libspark/ui/SWFWheel.as" />
+			<!-- JSON -->
+			<file name="framework/as3/classes/com/serialization/json/JSON.as" destination="$flash/GaiaFramework/gaia/as3/__GaiaClasses/com/serialization/json/JSON.as" />
+		<!-- END AS3 CLASSES -->
+		
+		<!-- AS3 DEPLOY -->
+			<file name="framework/as3/index.html" destination="$flash/GaiaFramework/gaia/as3/__GaiaDeploy/index.html" />
+			<file name="framework/as3/scaffold.swf" destination="$flash/GaiaFramework/gaia/as3/__GaiaDeploy/scaffold.swf" />
+			<file name="deploy/expressInstall.swf" destination="$flash/GaiaFramework/gaia/as3/__GaiaDeploy/expressInstall.swf" />
+			<file name="deploy/site.xml" destination="$flash/GaiaFramework/gaia/as3/__GaiaDeploy/site.xml" />
+			<file name="deploy/js/swfaddress.js" destination="$flash/GaiaFramework/gaia/as3/__GaiaDeploy/js/swfaddress.js" />
+			<file name="deploy/js/swfobject.js" destination="$flash/GaiaFramework/gaia/as3/__GaiaDeploy/js/swfobject.js" />
+		<!-- END AS3 DEPLOY -->
+		
+		<!-- ENVIROMENT SUPPORT -->
+		<file name="framework/as2/FlashDevelop.as2proj" destination="$flash/GaiaFramework/FlashDevelop.as2proj" />
+		<file name="framework/as3/FlashDevelop.as3proj" destination="$flash/GaiaFramework/FlashDevelop.as3proj" />
+		<file name="framework/as3/fx/.actionScriptProperties" destination="$flash/GaiaFramework/fx/.actionScriptProperties" />
+		<file name="framework/as3/fx/.project" destination="$flash/GaiaFramework/fx/.project" />
+		<file name="framework/as3/fx/org.eclipse.core.resources.prefs" destination="$flash/GaiaFramework/fx/org.eclipse.core.resources.prefs" />
+		<!-- END ENVIRONMENT SUPPORT -->
+	</files>
+
+</macromedia-extension>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<docProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <pageTitle>Gaia Framework API Documentation</pageTitle>
+  <classPaths>E:\Gaia\framework\trunk\as3\classes\com\gaiaframework\api</classPaths>
+  <sourcesList />
+  <outputDirectory>E:\Gaia\asdoc</outputDirectory>
+  <activeCompiler>1</activeCompiler>
+  <extraOptions>-source-path E:\Gaia\framework\trunk\as3\classes</extraOptions>
+</docProject>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:gaia="*" width="100%" height="100%" creationComplete="init()"
+	horizontalScrollPolicy="off" verticalPageScrollSize="200" verticalLineScrollSize="35">
+	<mx:Script>
+		<![CDATA[
+			import com.gaiaframework.panel.skin.StageManager;
+			import com.gaiaframework.panel.services.Panel;
+			import com.gaiaframework.panel.events.GaiaPanelEvent;
+			import com.gaiaframework.panel.data.Project;
+			import com.gaiaframework.panel.events.PanelErrorEvent;
+			
+			[Bindable]
+			public var project:Project;
+			
+			[Bindable]
+			private var panelWidth:int = 278;
+			
+			public function init():void
+			{
+				currentState = project.language;
+				verticalScrollPosition = 0;
+			}
+			private function onClickScaffold(event:MouseEvent):void
+			{
+				Panel.api.scaffold();
+			}
+			private function onClickUpdateBytes(event:MouseEvent):void
+			{
+				Panel.api.updateBytes();
+			}
+			private function onClickAutoDetect(event:MouseEvent):void
+			{
+				Panel.api.optimizeAutoDetect(onOptimizeCheckBoxChange);
+			}
+			private function onClickOptimize(event:MouseEvent):void
+			{
+				Panel.api.optimize();
+			}
+			private function validate(event:Event = null):void
+			{
+				project.classPackage = INP_Package.text;
+				project.domain = INP_Domain.text;
+				var packageValid:Boolean = validatePackage();
+				var domainValid:Boolean = CHK_SEO.selected ? validateDomain() : true; 
+				INP_Package.styleName = packageValid ? "" : "invalidInput";
+				INP_Domain.styleName = domainValid ? "" : "invalidInput";
+				BTN_Scaffold.enabled = packageValid && domainValid;
+				BTN_Scaffold.alpha = BTN_Scaffold.enabled ? 1 : 0.5;
+				if (packageValid && domainValid) dispatchEvent(new PanelErrorEvent(PanelErrorEvent.ALL_FIELDS_VALID));
+				else dispatchEvent(new PanelErrorEvent(PanelErrorEvent.INVALID_FIELDS));
+			}
+			private function validatePackage():Boolean
+			{
+				var pattern:RegExp = /^[a-z][\w\.]*\w+$/i;
+				return (INP_Package.text.length > 0 && pattern.test(INP_Package.text));
+			}
+			private function validateDomain():Boolean
+			{
+				var pattern:RegExp = /^([a-z0-9]([-a-z0-9]*[a-z0-9])?\.)+((a[cdefgilmnoqrstuwxz]|aero|arpa)|(b[abdefghijmnorstvwyz]|biz)|(c[acdfghiklmnorsuvxyz]|cat|com|coop)|d[ejkmoz]|(e[ceghrstu]|edu)|f[ijkmor]|(g[abdefghilmnpqrstuwy]|gov)|h[kmnrtu]|(i[delmnoqrst]|info|int)|(j[emop]|jobs)|k[eghimnprwyz]|l[abcikrstuvy]|(m[acdghklmnopqrstuvwxyz]|mil|mobi|museum)|(n[acefgilopruz]|name|net)|(om|org)|(p[aefghklmnrstwy]|pro)|qa|r[eouw]|s[abcdeghijklmnortvyz]|(t[cdfghjklmnoprtvwz]|travel)|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw])\/$/i;
+				return (INP_Domain.text.length > 0 && pattern.test(INP_Domain.text));
+			}
+			private function onOptimizeCheckBoxChange():void
+			{
+				project.optimizeTypes.soundAsset = CHK_SoundAsset.selected;
+				project.optimizeTypes.xmlAsset = CHK_XMLAsset.selected;
+				project.optimizeTypes.styleSheetAsset = CHK_StyleSheetAsset.selected;
+				project.optimizeTypes.jsonAsset = CHK_JSONAsset.selected;
+				project.optimizeTypes.netStreamAsset = CHK_NetStreamAsset.selected;
+				//
+				if (project.language == Project.AS3)
+				{
+					project.optimizeTypes.bitmapAsset = CHK_BitmapAsset.selected;
+					project.optimizeTypes.bitmapSpriteAsset = CHK_BitmapSpriteAsset.selected;
+					project.optimizeTypes.byteArrayAsset = CHK_ByteArrayAsset.selected;
+					project.optimizeTypes.textAsset = CHK_TextAsset.selected;
+					CHK_XMLAsset.enabled = project.optimizeTypes.textAsset;
+					CHK_StyleSheetAsset.enabled = project.optimizeTypes.textAsset;
+					CHK_JSONAsset.enabled = project.optimizeTypes.textAsset;
+				}
+				else if (project.language == Project.AS2)
+				{
+					CHK_SoundClipAsset.enabled = project.optimizeTypes.soundAsset;
+					project.optimizeTypes.soundClipAsset = CHK_SoundClipAsset.selected;
+				}
+				Panel.api.save();
+			}
+			override protected function updateDisplayList(unscaledWidth:Number, unscaledHeight:Number):void
+			{
+				super.updateDisplayList(unscaledWidth, unscaledHeight);
+				panelWidth = StageManager.scrollWidth;
+			}			
+		]]>
+	</mx:Script>
+
+	<mx:states>
+		<mx:State name="AS2">
+			<mx:RemoveChild target="{CHK_BitmapAsset}"/>
+			<mx:RemoveChild target="{CHK_BitmapSpriteAsset}"/>
+			<mx:RemoveChild target="{CHK_TextAsset}"/>
+			<mx:RemoveChild target="{CHK_ByteArrayAsset}"/>
+		</mx:State>
+		<mx:State name="AS3">
+			<mx:RemoveChild target="{CHK_SoundClipAsset}"/>
+		</mx:State>
+	</mx:states>
+
+	<mx:VBox paddingTop="10" verticalGap="1" width="100%">
+		<mx:Canvas height="83" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:Label 
+				x="10" y="0" text="Class Package"/>
+			<gaia:HelpButton id="HELP_Package" 
+				x="{panelWidth - HELP_Package.width}"
+				y="0"
+				toolTip="This is the package where scaffolded page classes go. Ending your class package with 'pages' is recommended. Example 'com.clientname.projectname.pages'"
+				url="http://www.gaiaflashframework.com/wiki/index.php?title=Getting_Started#Class_Package"/>
+			<mx:TextInput id="INP_Package" text="{project.classPackage}" change="validate(event)" restrict="a-zA-Z0-9_."
+				x="10" y="18" width="{panelWidth - 10}"/>
+			
+			<mx:Button id="BTN_Scaffold" click="onClickScaffold(event)"
+				label="Scaffold Project" 
+				x="10" y="52" width="{panelWidth - 10}" height="18"/>
+		</mx:Canvas>
+		
+
+		<gaia:CollapsableTitle title="OPTIONS" collapsedTitle="OPTIONS" target="{VBox_Options}"/>
+		<mx:VBox id="VBox_Options" width="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:Canvas height="129" width="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<mx:Label text="Template Transition Style" fontWeight="normal"
+					x="10" y="8" />
+				<mx:ComboBox id="CMB_Template" change="{project.template = String(CMB_Template.selectedItem)}"
+					x="10" y="29" width="{panelWidth - 10}" selectedItem="{project.template}" dataProvider="[Actionscript,Timeline]" height="18"/>
+				
+				<mx:HRule y="57" width="100%"/>
+				
+				<mx:CheckBox id="CHK_SEO" selected="{project.seo}" change="{project.seo = CHK_SEO.selected}"
+					x="10" y="66" label="SEO Scaffolding" labelPlacement="left"/>
+				<gaia:HelpButton id="HELP_SEO" 
+					x="{panelWidth - HELP_SEO.width}"
+					y="69"
+				toolTip="{project.seo ? 'Enter the domain of the website for the sitemap.xml. MUST END IN TRAILING SLASH' : 'Search Engine Optimization'}"
+				url="http://www.gaiaflashframework.com/wiki/index.php?title=SEO"/>
+				<mx:Label 
+					x="10" y="96" text="Domain: http://"/>
+				<mx:TextInput id="INP_Domain" text="{project.domain}" change="validate(event)" enabled="{CHK_SEO.selected}"
+					x="97" y="94" width="{panelWidth - INP_Domain.x}"/>
+			</mx:Canvas>
+		</mx:VBox>
+		
+		
+		<gaia:CollapsableTitle title="UTILITIES" collapsedTitle="UTILITIES" target="{VBox_Utilities}"/>
+		<mx:VBox id="VBox_Utilities" width="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+			<mx:Canvas height="100%" width="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+				<mx:Label text="Byte Accurate Preloading" enabled="{project.isScaffolded}"
+					x="10" y="8"/>
+				<gaia:HelpButton id="HELP_Bytes" 
+					x="{panelWidth - HELP_Bytes.width}"
+					y="8"
+					toolTip="Sets the file sizes for all your pages and assets for byte accurate preloading."
+					url="http://www.gaiaflashframework.com/wiki/index.php?title=The_Gaia_Panel#Byte_Accurate_Preloading"/>
+				<mx:Button id="BTN_UpdateBytes" click="onClickUpdateBytes(event)" enabled="{project.isScaffolded}"
+					x="10" y="28" width="{panelWidth - 10}" height="18" label="Update Bytes in Site XML"/>
+					
+				<mx:HRule y="56" width="100%"/>
+					
+				<mx:Label 
+					x="10" y="66" text="Enabled Assets" enabled="{project.isScaffolded}"/>
+				<gaia:HelpButton id="HELP_Optimize" 
+					x="{panelWidth - HELP_Optimize.width}"
+					y="66"
+				toolTip="Reduces the main.swf file size by only compiling selected asset classes."
+				url="http://www.gaiaflashframework.com/wiki/index.php?title=The_Gaia_Panel#Disable_Assets"/>
+				<mx:Button id="BTN_AutoDetect" click="onClickAutoDetect(event)"  enabled="{project.isScaffolded}" toolTip=""
+					x="10" y="86" width="{panelWidth - 10}" height="18" label="Auto-Detect" />
+			
+				<mx:VBox id="VBox_Optimize" verticalScrollPolicy="off" horizontalScrollPolicy="off"
+					y="110" paddingLeft="23" paddingBottom="10">
+					<mx:CheckBox id="CHK_BitmapAsset" selected="{project.optimizeTypes.bitmapAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="BitmapAsset" height="19"/>
+					<mx:CheckBox id="CHK_BitmapSpriteAsset" selected="{project.optimizeTypes.bitmapSpriteAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="BitmapSpriteAsset"  height="19"/>
+					<mx:CheckBox id="CHK_SoundAsset" selected="{project.optimizeTypes.soundAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="SoundAsset"  height="19"/>
+					<mx:CheckBox id="CHK_SoundClipAsset" selected="{project.optimizeTypes.soundClipAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="SoundClipAsset"  height="19"/>
+					<mx:CheckBox id="CHK_NetStreamAsset" selected="{project.optimizeTypes.netStreamAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="NetStreamAsset"  height="19"/>
+					<mx:CheckBox id="CHK_ByteArrayAsset" selected="{project.optimizeTypes.byteArrayAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="ByteArrayAsset"  height="19"/>
+					<mx:CheckBox id="CHK_TextAsset" selected="{project.optimizeTypes.textAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="TextAsset"  height="19"/>
+					<mx:CheckBox id="CHK_XMLAsset" selected="{project.optimizeTypes.xmlAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="XMLAsset"  height="19"/>
+					<mx:CheckBox id="CHK_StyleSheetAsset" selected="{project.optimizeTypes.styleSheetAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="StyleSheetAsset"  height="19"/>
+					<mx:CheckBox id="CHK_JSONAsset" selected="{project.optimizeTypes.jsonAsset}" enabled="{project.isScaffolded}" change="{onOptimizeCheckBoxChange()}"
+						label="JSONAsset"  height="19"/>
+					<mx:Canvas height="100%" width="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off">							
+						<mx:Button id="BTN_Optimize" click="onClickOptimize(event)" enabled="{project.isScaffolded}"
+							x="{panelWidth - BTN_Optimize.width - 23}" label="Optimize" width="97" height="18"/>
+						</mx:Canvas>
+				</mx:VBox>
+			</mx:Canvas>
+		</mx:VBox>
+	</mx:VBox>
+</mx:Canvas>

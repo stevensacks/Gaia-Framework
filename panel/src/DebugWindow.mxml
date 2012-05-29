@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	//DebugWindow
+	
+    Created by Jesse R. Warden a.k.a. "JesterXL"
+	jesterxl@jessewarden.com
+	http://www.jessewarden.com
+	http://www.universalmind.com
+	
+	This is release under a Creative Commons license. 
+    More information can be found here:
+    
+    http://creativecommons.org/licenses/by/2.5/
+-->
+<mx:TitleWindow
+	xmlns:mx="http://www.adobe.com/2006/mxml" x="0" y="0"
+	width="540" height="400" title="Debug Window"
+	creationComplete="onCreationComplete()"
+	mouseUp="onMouseUp()"
+	close="debugWindow_close(event);"
+	showCloseButton="true">
+	
+	<mx:Script>
+	<![CDATA[
+		import mx.managers.PopUpManager;
+		import mx.events.CloseEvent;
+	
+		private function debugWindow_close(evt:CloseEvent):void {
+			PopUpManager.removePopUp(this);
+        }
+
+		public static function debug(o:*):void
+		{	
+			if(isCreated == true)
+			{
+				inst.debug(o);
+			}
+			else
+			{
+				backLog += o + "\n";
+			}
+		}
+		
+		public static function debugProps(o:*):void
+		{
+			if(isCreated == true)
+			{
+				inst.debugProps(o);
+			}
+			else
+			{
+				var s:String = "";
+				for(var p:String in o)
+				{
+					s += p + ": " + o[p] + "\n";
+				}
+				backLog += s;
+			}
+		}
+		
+		public static function header():void
+		{
+			debug("---------------------");
+		}
+		
+		
+		protected function onCreationComplete():void
+		{
+			inst = this;
+			isCreated = true;
+			debug(backLog);
+			backLog = null;
+			var so:SharedObject = SharedObject.getLocal("DebugWindow_position");
+			if(so != null)
+			{
+				if(so.data.pos != null)
+				{
+					if(so.data.pos.x != undefined && so.data.pos.y != undefined)
+					{
+						move(so.data.pos.x, so.data.pos.y);
+					}
+				}
+			}
+		}
+	
+		public function debug(o:*):void
+		{
+			trace(o);
+			debug_ta.text += o + "\n";
+			callLater(scrollIt);
+		}
+		
+		private function scrollIt():void
+		{
+			debug_ta.verticalScrollPosition = debug_ta.maxVerticalScrollPosition;
+		}
+		
+		public function debugProps(o:*):void
+		{
+			var s:String = "";
+			for(var p:String in o)
+			{
+				s += p + ": " + o[p] + "\n";
+			}
+			debug(s);
+		}
+		
+		public function header():void
+		{
+			debug("---------------------");
+		}
+		
+		protected function onMouseUp():void
+		{
+			var so:SharedObject = SharedObject.getLocal("DebugWindow_position");
+			so.data.pos = {x: x, y: y};
+			var r:String = so.flush();
+			////DebugWindow.header();
+			////DebugWindow.debug("r: " + r);
+		}
+		
+		public static var inst:DebugWindow;
+		
+		protected static var backLog:String = "";
+		protected static var isCreated:Boolean = false;
+	
+	]]>
+	</mx:Script>
+		
+	
+	<mx:TextArea 
+		id="debug_ta" 
+		width="100%" height="100%"/>
+		
+	
+	<mx:ControlBar>
+	  <mx:Button label="clear" click="debug_ta.text = ''"  width="100%"/>
+	</mx:ControlBar>
+		
+</mx:TitleWindow>

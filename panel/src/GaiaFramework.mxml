@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:skin="com.gaiaframework.panel.skin.*"  
+	xmlns:gaia="*"
+	layout="absolute" 
+	creationComplete="init()" 
+	width="100%" height="100%" 
+	frameRate="15"
+	horizontalScrollPolicy="off"
+	verticalScrollPolicy="off"
+	horizontalAlign="left" verticalAlign="top">
+	<mx:Style source="/assets/styles/default.css"/>
+	<mx:Script>
+		<![CDATA[
+			import com.gaiaframework.panel.services.Panel;
+			import com.gaiaframework.panel.skin.StageManager;
+			import flash.net.navigateToURL;
+			import flash.net.URLRequest;
+			
+			protected var menu:ContextMenu = new ContextMenu();
+			
+			protected function init():void
+			{
+				menu.hideBuiltInItems();
+				var gaiaItem:ContextMenuItem = new ContextMenuItem("Gaia Framework Panel");
+				var forumItem:ContextMenuItem = new ContextMenuItem("Forum", true);
+				var wikiItem:ContextMenuItem = new ContextMenuItem("Wiki"); 
+				var asdocItem:ContextMenuItem = new ContextMenuItem("ASDocs");
+				var logFileItem:ContextMenuItem = new ContextMenuItem("Open Panel Log", true);
+				var clearLogFileItem:ContextMenuItem = new ContextMenuItem("Clear Panel Log");
+				//
+				forumItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onClickForum);
+				wikiItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onClickWiki);
+				asdocItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onClickASDoc);
+				logFileItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onClickLogFile);
+				clearLogFileItem.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, onClickClearLogFile);
+				//
+				menu.customItems = [gaiaItem, forumItem, wikiItem, asdocItem, logFileItem, clearLogFileItem];
+				contextMenu = menu;
+				addChild(new StageManager());
+				//
+				//debug();
+			}
+			
+			/*
+			import mx.managers.PopUpManager;
+			private function debug():void
+			{
+				PopUpManager.createPopUp(this, DebugWindow, false);
+				DebugWindow.debug("DEBUG MODE v3.1.7.001");
+			}
+			*/
+			
+			
+			private function onClickForum(event:ContextMenuEvent):void
+			{
+				navigateToURL(new URLRequest("http://www.gaiaflashframework.com/index.php/action,forum.html"), "_blank");
+			}
+			private function onClickWiki(event:ContextMenuEvent):void
+			{
+				navigateToURL(new URLRequest("http://www.gaiaflashframework.com/wiki/index.php?title=Main_Page"), "_blank");
+			}
+			private function onClickASDoc(event:ContextMenuEvent):void
+			{
+				navigateToURL(new URLRequest("http://www.gaiaflashframework.com/asdoc/"), "_blank");
+			}
+			private function onClickLogFile(event:ContextMenuEvent):void
+			{
+				Panel.api.openPanelLog();
+			}
+			private function onClickClearLogFile(event:ContextMenuEvent):void
+			{
+				Panel.api.clearPanelLog();
+			}
+		]]>
+	</mx:Script>
+	<gaia:GaiaPanel/>
+	<gaia:PanelHeader/>
+</mx:Application>

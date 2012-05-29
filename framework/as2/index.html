@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Gaia Framework Site</title>
+<script type="text/javascript" src="js/swfobject.js"></script>
+<script type="text/javascript" src="js/swfaddress.js"></script>
+<script type="text/javascript">
+	var params = {
+		quality: "high",
+		scale: "noscale",
+		wmode: "window",
+		allowscriptaccess: "always",
+		bgcolor: "#FFFFFF"
+	};
+	var flashvars = {};
+	var attributes = {id:"flashcontent"};
+	swfobject.embedSWF("main.swf", "flashcontent", "500", "400", "8.0.0", "expressInstall.swf", flashvars, params, attributes);
+</script>
+<style type="text/css">
+</style>
+</head>
+<body>
+	<div id="flashcontent">
+		<!--SEO-->
+		<div id="noflash">
+			<p><strong>You need to upgrade your Flash Player</strong></p>
+			<p>This is replaced by the Flash content.</p>
+			<p>Place your alternate content here and users without the Flash plugin or with 
+			Javascript turned off will see this. Content here allows you to leave out <code>noscript</code> 
+			tags. Include a link to <a href="index.html?detectflash=false">bypass the detection</a> if you wish.</p>
+		</div>
+	</div>
+</body>
+</html>
